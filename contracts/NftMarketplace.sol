@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.x;
+pragma solidity ^0.8.28;
 
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 
@@ -16,6 +16,7 @@ contract NftMarketplace{
     error NftMarketplace__IsNotOwner();
     error NftMarketplace__AlreadyListed(address nftContract, uint256 tokenId);
     error NftMarketplace__NotListed(address nftContract, uint256 tokenId);
+    error NftMarketplace__NoProceeds();
 
     ////////////////////
     //    State Var   //
@@ -196,7 +197,7 @@ contract NftMarketplace{
 
     function withdrawProceeds() external {
         uint256 proceeds = s_proceeds[msg.sender];
-        if(proceeds <= 0) revert NftMarketplace__InvalidPrice();
+        if(proceeds <= 0) revert NftMarketplace__NoProceeds();
 
         s_proceeds[msg.sender] = 0;
 
